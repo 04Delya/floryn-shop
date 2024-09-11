@@ -1,6 +1,6 @@
 # Floryn Shop
 
-**PWS: http://pbp.cs.ui.ac.id/delya.ardiyanti/florynshop**
+**PWS: http://delya-ardiyanti-florynshop.pbp.cs.ui.ac.id**
 **GitHub: https://github.com/04Delya/floryn-shop.git**
 
 **Floryn Shop** adalah sebuah platform *e-commerce* yang menjual berbagai macam bunga dan tanaman hias. Proyek ini dibangun menggunakan *framework* Django untuk memberikan pengalaman belanja *online* yang optimal dan dirancang untuk memenuhi kebutuhan pelanggan secara efektif.
