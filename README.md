@@ -169,20 +169,22 @@
 
     ```mermaid
         graph TD;
-        Client(Browser) -->|Request| Internet;
-        Internet -->|Forward Request| WebServer;
-        WebServer -->|Request| DjangoApp;
-        DjangoApp -->|Routing| urls.py;
-        urls.py -->|Process| views.py;
-        views.py -->|Access Data| models.py;
-        models.py -->|Provide Data| Database;
-        views.py -->|Render| template.html;
-        template.html -->|Send Response| Client(Browser);
-        Client(Browser) -->|Webpage| Internet;
+            Client -->|Request| Internet;
+            Internet -->|Forward Request| DjangoProject;
+            DjangoProject -->|Routing| urls.py;
+            urls.py -->|Process| views.py;
+            views.py -->|Access Data| models.py;
+            models.py -->|Provide Data| Database;
+            Database -->|Return Data| models.py;
+            models.py -->|Return Data| views.py;
+            views.py -->|Render| template.html;
+            template.html -->|Send Response| DjangoProject;
+            DjangoProject --> |Send Response| Internet;
+            Internet --> |Deliver Webpage| Client;
     ```
-    Saat klien mengirimkan request ke aplikasi Django melalui browser, request ini diteruskan oleh internet ke server. Di tahap ini, urls.py berfungsi sebagai pengatur arah dengan melakukan routing pada request yang masuk ke fungsi yang tepat di views.py. Selanjutnya, views.py mengakses models.py untuk mengambil data yang diperlukan dari database. Setelah models.py mengembalikan data yang diminta, views.py akan menggunakan template HTML (template.html) untuk menampilkan halaman web ke klien. Terakhir, server akan mengirimkan respon berupa halaman HTML yang telah dirender kembali ke browser melalui internet.
+    Saat klien mengirimkan request ke aplikasi Django melalui browser, request tersebut diteruskan oleh internet ke server. Di tahap ini, urls.py berfungsi sebagai pengatur arah, yaitu melakukan routing terhadap request yang masuk ke fungsi yang tepat di views.py. Selanjutnya, views.py akan mengakses models.py untuk mengambil data yang diperlukan dari database. Database kemudian mengembalikan data tersebut ke models.py, yang lalu dikirimkan kembali ke views.py. Setelah mendapatkan data, views.py akan menggunakan template HTML (template.html) untuk merender halaman web. Terakhir, server mengirimkan respon berupa halaman HTML yang telah dirender kembali ke browser melalui internet.
 
-    Keterkaitan antara urls.py, views.py, models.py, dan template HTML sangat penting. Urls.py menentukan arah request ke fungsi-fungsi di views.py, yang kemudian mengelola pengambilan data dari database melalui models.py. Setelah itu, views.py memproses data tersebut menggunakan template HTML agar bisa ditampilkan ke klien sebagai respon.
+    Keterkaitan antara urls.py, views.py, models.py, dan template HTML sangat erat. Urls.py menentukan alur request ke fungsi-fungsi di views.py, yang kemudian mengelola pengambilan data dari database melalui models.py. Setelah itu, views.py memproses data tersebut menggunakan template HTML untuk merender tampilan yang akan dikirimkan sebagai respon kepada klien.
 
 
 - Jelaskan fungsi git dalam pengembangan perangkat lunak!
