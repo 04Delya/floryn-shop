@@ -77,7 +77,7 @@
             product = Product.objects.create(
                 name="Red Rose Bouquet",
                 price=300000,
-                desription="Express your love with this elegant bouquet of 12 fresh red roses, symbolizing beauty and passion.",
+                description="Express your love with this elegant bouquet of 12 fresh red roses, symbolizing beauty and passion.",
                 category="Flower Bouquet",
                 rating=4.75
             )
@@ -85,8 +85,8 @@
             self.assertEqual(product.price, 300000)
 
         def test_product_list(self):
-            Product.objects.create(name="Product 1", price=50000, desription="Desc 1", category="Cat 1", rating=4.50)
-            Product.objects.create(name="Product 2", price=150000, desription="Desc 2", category="Cat 2", rating=4.80)
+            Product.objects.create(name="Product 1", price=50000, description="Desc 1", category="Cat 1", rating=4.50)
+            Product.objects.create(name="Product 2", price=150000, description="Desc 2", category="Cat 2", rating=4.80)
             products = Product.objects.all()
             self.assertEqual(products.count(), 2)
 

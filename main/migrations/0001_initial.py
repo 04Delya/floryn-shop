@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
                 ('price', models.IntegerField()),
-                ('desription', models.TextField()),
+                ('description', models.TextField()),
                 ('category', models.CharField(max_length=100)),
                 ('rating', models.DecimalField(decimal_places=2, max_digits=5)),
             ],
