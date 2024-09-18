@@ -5,6 +5,8 @@
 
 **Floryn Shop** adalah sebuah platform *e-commerce* yang menjual berbagai macam bunga dan tanaman hias. Proyek ini dibangun menggunakan *framework* Django untuk memberikan pengalaman belanja *online* yang optimal dan dirancang untuk memenuhi kebutuhan pelanggan secara efektif.
 
+## TUGAS 2
+
 - Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 
     1. Membuat sebuah proyek Django baru.
@@ -199,3 +201,315 @@
 
 - Mengapa model pada Django disebut sebagai *ORM*?
     Model pada Django disebut sebagai ORM (*Object-Relational Mapping*) karena Django memetakan objek dari model Python ke dalam tabel pada basis data relasional. Dengan menggunakan Django ORM, *developer* dapat mendefinisikan model Python yang berfungsi sebagai representasi tabel dalam basis data serta melakukan interaksi data melalui operasi objek Python tanpa menulis **query SQL** secara langsung. Fitur seperti `QuerySets` memungkinkan pengembang menyaring, mengurutkan, dan melakukan agregasi data dengan sintaks Python yang sederhana. Selain itu, Django ORM mendukung operasi CRUD (*Create, Read, Update, Delete*), yang secara otomatis menerjemahkan operasi pada objek Python menjadi perintah SQL. Hal ini membuat *developer* dapat bekerja dengan berbagai jenis basis data tanpa harus mempelajari SQL secara mendalam. Proses pemetaan ini tidak hanya meningkatkan efisiensi dan portabilitas, tetapi juga keamanan aplikasi dengan mencegah serangan seperti **SQL Injection**. Dengan demikian, Django ORM memberikan kemudahan dalam mengelola basis data serta menjaga keamanan aplikasi.
+
+## TUGAS 3
+
+- Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+    **Data delivery** diperlukan dalam pengimplementasian platform untuk mentransfer data antara `server` dan `klien` secara efisien. Ini memastikan bahwa informasi seperti konten, gambar, atau data lainnya dapat diterima dan ditampilkan dengan benar di sisi pengguna. Tanpa mekanisme ini, platform tidak akan berfungsi optimal karena data tidak dapat dikomunikasikan dengan baik antara komponen sistem. Contohnya, dalam platform berbasis web, data dikirim dan diterima menggunakan protokol `HTTP/HTTPS` dengan format seperti `JSON` atau `XML`.
+
+- Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+    Menurut saya, `JSON` lebih unggul karena sintaksisnya yang lebih ringkas, mudah dibaca, dan ditulis. Selain itu, `JSON` juga dianggap lebih aman dibandingkan `XML`, terutama dalam konteks aplikasi web. Keunggulan lainnya adalah kompatibilitas `JSON` dengan `JavaScript` yang menjadikan `JSON` sangat efisien dalam pengembangan aplikasi web modern.
+
+    Meskipun begitu, pemilihan antara `XML` dan `JSON` tergantung pada kebutuhan proyek. `XML` lebih cocok untuk struktur data yang kompleks dan membutuhkan metadata yang banyak, karena `XML` memiliki kemampuan yang lebih kuat dalam mendefinisikan elemen dan atribut.
+
+    `JSON` semakin populer karena sifatnya yang lebih sederhana dan efisien, baik dalam ukuran *file* maupun kecepatan *parsing*, terutama di aplikasi web modern yang menggunakan `JavaScript`. `JSON` juga lebih mudah dibaca dan ditulis oleh manusia dibandingkan `XML`, serta secara langsung kompatibel dengan objek `JavaScript`. Sifat `JSON` yang lebih ringan dan lebih cepat menjadikannya pilihan yang lebih baik untuk aplikasi yang membutuhkan komunikasi data yang cepat dan ringan. Selain itu, `JSON` lebih mudah di-`parse` oleh browser dan bahasa pemrograman modern, memperkuat posisinya dalam pengembangan aplikasi web.
+
+- Jelaskan fungsi dari method `is_valid()` pada form Django dan mengapa kita membutuhkan method tersebut?
+    *Method* `is_valid()` pada *form* Django berfungsi untuk memvalidasi data yang dimasukkan ke dalam *form* sesuai dengan aturan yang telah didefinisikan. Jika data yang dimasukkan valid, *method* ini akan mengembalikan nilai `True`, namun jika terdapat kesalahan, *method* ini akan mengembalikan `False`. Validasi yang dilakukan mencakup berbagai aturan seperti tipe data dan panjang maksimal. Dengan menggunakan `is_valid()`, kita dapat memastikan bahwa data yang diterima sudah sesuai sebelum diproses lebih lanjut, sehingga mencegah terjadinya *error* dalam langkah berikutnya.
+
+- Mengapa kita membutuhkan `csrf_token` saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan `csrf_token` pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+    **CSRF**(*Cross-Site Request Forgery*) token dalam Django digunakan untuk melindungi aplikasi dari serangan **CSRF**, di mana penyerang bisa mengirim permintaan yang tidak sah atas nama pengguna. Dengan menambahkan `csrf_token` ke dalam *form*, Django dapat memverifikasi apakah permintaan tersebut benar-benar berasal dari pengguna yang valid, bukan dari sumber yang berbahaya. Token ini dibuat secara otomatis oleh Django dan dikirim bersama permintaan ketika pengguna mengirim *form*, baik sebagai parameter POST atau melalui header (misalnya, X-CSRFToken). Setelah permintaan diterima, server akan memeriksa apakah token tersebut cocok dengan token yang ada di sesi pengguna. Jika token cocok, maka permintaan dianggap valid dan diproses. Jika tidak cocok, server akan menolak permintaan tersebut karena dianggap sebagai potensi serangan **CSRF**.
+
+    Tanpa csrf_token, *web platform* lebih mudah terkena serangan **CSRF**. Penyerang dapat memanfaatkan sesi pengguna untuk melakukan aksi tertentu tanpa sepengetahuan pengguna. Misalnya, penyerang dapat memanipulasi *form* di situs lain untuk mengirimkan data atau melakukan transaksi berbahaya atas nama pengguna. Serangan ini bahkan dapat terjadi hanya dengan mengunjungi situs berbahaya yang memuat skrip yang melakukan tindakan di platform target. Oleh karena itu, `csrf_token` sangat penting untuk menjaga keamanan *web platform* agar tidak disalahgunakan oleh penyerang untuk mengubah atau mengambil alih data pengguna.
+
+- Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+    1. Membuat input form untuk menambahkan objek model pada app sebelumnya.
+
+    Untuk membuat *input form* di aplikasi Django, langkah pertama yang saya lakukan adalah membuat kerangka dasar dengan membuat direktori `templates` di *root folder*. Kemudian, saya membuat *file* `base.html` yang berfungsi sebagai *template* dasar untuk halaman-halaman lain. Template ini membantu menjaga konsistensi desain dengan menggunakan *tag* `{% block content %}`. Berikut adalah kode yang saya gunakan untuk `base.html`:
+
+    ```html
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {% block meta %} {% endblock meta %}
+    </head>
+
+    <body>
+        {% block content %} {% endblock content %}
+    </body>
+    </html>
+    ```
+
+    Setelah itu, saya menambahkan *path template* di `settings.py` agar Django mengenali direktori `templates` dengan menambahkan baris berikut:
+    `'DIRS': [BASE_DIR / 'templates'],`
+
+    Selanjutnya, di subdirektori `templates` yang ada pada direktori `main`, saya mengubah kode berkas `main.html` yang telah dibuat sebelumnya menjadi seperti berikut:
+
+    ```html
+
+    ...
+
+    {% extends 'base.html' %}
+    {% block content %}
+    <h1>Floryn Shop</h1>
+
+    <h5>NPM: </h5>
+    <p>{{ npm }}<p>
+
+    <h5>Name:</h5>
+    <p>{{ name }}</p>
+
+    <h5>Class:</h5>
+    <p>{{ class }}</p>
+
+    ...
+
+    ```
+
+    Langkah berikutnya, saya membuat model `Product` di `models.py`. Model ini mencakup atribut seperti `name`, `price`, `description`, `category`, dan `rating`, dengan UUID sebagai *primary key* untuk meningkatkan keamanan. Berikut adalah kode model yang saya buat:
+
+    ```python
+    import uuid 
+    from django.db import models
+
+    class Product(models.Model):
+        id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+        name = models.CharField(max_length=255)
+        price = models.IntegerField()
+        description = models.TextField()
+        category = models.CharField(max_length=100)
+        rating = models.DecimalField(max_digits=5, decimal_places=2)
+    ```
+
+    Kemudian, saya menjalankan perintah `makemigrations` dan `migrate` untuk memperbarui *database*:
+    `python3 manage.py makemigrations`
+    `python3 manage.py migrate`
+
+    Setelah model selesai, saya membuat *form* di `forms.py` untuk menambahkan produk baru, dengan *form* ini menghubungkan model `Product` dengan *input* dari pengguna. *Form* tersebut mencakup *field* seperti `name`, `price`, `description`, `category`, dan `rating`. Berikut adalah kode untuk *form* yang saya buat:
+
+    ```python
+    from django.forms import ModelForm, TextInput, ChoiceField, DecimalField
+    from main.models import Product
+
+    class ProductForm(ModelForm):
+        CATEGORY_CHOICES = [
+            ('Single Flower', 'Single Flower'),
+            ('Mixed Flower Arrangement', 'Mixed Flower Arrangement'),
+            ('Flower Bouquet', 'Flower Bouquet'),
+            ('Wedding Bouquet', 'Wedding Bouquet'),
+            ('Seasonal Bouquet', 'Seasonal Bouquet'),
+            ('Birthday Bouquet', 'Birthday Bouquet'),
+            ('Anniversary Bouquet', 'Anniversary Bouquet'),
+            ('Custom Design Bouquet', 'Custom Design Bouquet'),
+        ]
+
+        category = ChoiceField(choices=CATEGORY_CHOICES)
+        
+        class Meta:
+            model = Product
+            fields = ["name", "price", "description", "category", "rating"]
+
+            rating = DecimalField(min_value=0.00, max_value=5.00, decimal_places=2, label='Rating')
+
+            widgets = {
+                'price': TextInput(attrs={'placeholder': 'Rp'}),
+            }
+    ```
+
+    Setelah *form* dibuat, saya menambahkan fungsi `create_product` di `views.py` untuk memproses *form input*. Fungsi ini memvalidasi data yang di-*input* dan menyimpannya ke dalam *database* jika valid. Berikut adalah kode untuk fungsi tersebut:
+
+    ```python
+    from django.shortcuts import render, redirect
+    from main.forms import ProductForm
+    from main.models import Product
+
+    ...
+
+    def create_product(request):
+        form = ProductForm(request.POST or None)
+
+        if form.is_valid() and request.method == "POST":
+            form.save()
+            return redirect('main:show_main')
+
+        context = {'form': form}
+        return render(request, "create_product.html", context)
+    
+    ...
+
+    ```
+
+    Selain itu, saya juga memodifikasi fungsi `show_main` di `views.py` untuk menampilkan semua produk yang tersimpan di *database*. Kode yang saya gunakan adalah sebagai berikut:
+
+    ```python
+
+    ...
+    def show_main(request):
+        products = Product.objects.all()
+
+        context = {
+            'npm' : '2306245586',
+            'name': 'Delya Ardiyanti',
+            'class': 'PBP A',
+            'products': products
+        }
+
+        return render(request, "main.html", context)
+    ...
+
+    ```
+
+    Selanjutnya, saya menambahkan *path* URL untuk *form* di `urls.py`, agar *form* dapat diakses melalui URL tertentu. Berikut adalah kode *path*-nya:
+
+    ```python
+    from main.views import show_main, create_product
+
+    urlpatterns = [
+        path('create-product', create_product, name='create_product'),
+    ]
+    ```
+
+    Setelah itu, saya membuat *template* `create_product.html` untuk menampilkan *form input* produk, menggunakan *tag* Django seperti `{% csrf_token %}` dan `{{ form.as_table }}`. Berikut adalah kode untuk *file* tersebut:
+
+    ```html
+    {% extends 'base.html' %} 
+    {% block content %}
+    <h1>Add New Product</h1>
+
+    <form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+        <tr>
+        <td></td>
+        <td>
+            <input type="submit" value="Add Product" />
+        </td>
+        </tr>
+    </table>
+    </form>
+
+    {% endblock %}
+    ```
+
+    Terakhir, saya memodifikasi `main.html` untuk menampilkan daftar produk dalam bentuk tabel dan menyediakan *button* untuk menambah produk baru. Kode yang saya gunakan adalah:
+
+    ```html
+
+    ...
+    {% if not products %}
+    <p>Belum ada data produk pada Floryn Shop.</p>
+    {% else %}
+    <table>
+    <tr>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Rating</th>
+    </tr>
+
+    {% for product in products %}
+    <tr>
+        <td>{{ product.name }}</td>
+        <td>Rp {{ product.price }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.rating }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+
+    <br />
+
+    <a href="{% url 'main:create_product' %}">
+    <button>Add New Product</button>
+    </a>
+    {% endblock content %}
+
+    ```
+
+    Setelah semua langkah selesai, saya menjalankan server Django dengan perintah `python3 manage.py runserver` dan saya kemudian mengakses `http://localhost:8000/` untuk melihat hasilnya.
+
+    2. Tambahkan 4 fungsi `views` baru untuk melihat objek yang sudah ditambahkan dalam format XML, JSON, XML by ID, dan JSON by ID.
+
+    Langkah pertama yang saya lakukan adalah membuka *file* `views.py` yang ada di direktori `main`. Saya menambahkan *import* untuk `HttpResponse` dan `serializers` agar nantinya bisa mengonversi data menjadi format `XML` dan `JSON`.
+
+    ```python
+    from django.http import HttpResponse
+    from django.core import serializers
+    ...
+
+    ```
+
+    Langkah berikutnya, saya membuat dua fungsi baru yaitu `show_xml` dan `show_json`. Kedua fungsi ini bertujuan untuk mengambil semua data dari model `Product` dan mengembalikannya dalam format `XML` atau `JSON`.
+
+    ```python
+
+    ...
+    def show_xml(request):
+        data = Product.objects.all()
+        return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+    def show_json(request):
+        data = Product.objects.all()
+        return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+    ...
+
+    ```
+
+    Selanjutnya, saya membuat dua fungsi lagi yang masing-masing akan mengembalikan data berdasarkan `ID` dalam format `XML` dan `JSON`. Fungsi ini berguna ketika saya hanya ingin melihat satu data tertentu dengan `ID` spesifik.
+
+    ```python
+
+    ...
+    def show_xml_by_id(request, id):
+        data = Product.objects.filter(pk=id)
+        return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+    def show_json_by_id(request, id):
+        data = Product.objects.filter(pk=id)
+        return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+    
+    ```
+
+    3. Membuat routing URL untuk masing-masing `views` yang telah ditambahkan pada poin 2.
+
+    Setelah menyelesaikan pembuatan fungsi-fungsi untuk menampilkan data dalam format `XML` dan `JSON`, baik untuk seluruh data maupun berdasarkan `ID`, langkah berikutnya yang saya lakukan adalah mengatur *routing* URL agar setiap fungsi tersebut dapat diakses melalui `browser`. Hal ini penting untuk memastikan pengguna dapat melihat data sesuai dengan format dan kebutuhan yang diinginkan.
+
+    Pertama, saya mengimpor semua fungsi yang sudah dibuat ke dalam *file* `urls.py`:
+
+    ```python
+    from main.views import show_main, create_product, show_xml, show_json, show_xml_by_id, show_json_by_id
+    ...
+
+    ```
+
+    Kemudian, saya menambahkan *path* URL di dalam `urlpatterns` untuk mengakses data dalam format `XML` dan `JSON`, baik untuk seluruh data maupun berdasarkan `ID`:
+
+    ```python
+
+    ... 
+
+    urlpatterns = [
+        ...
+        path('xml/', show_xml, name='show_xml'),
+        path('json/', show_json, name='show_json'),
+        path('xml/<str:id>/', show_xml_by_id, name='show_xml_by_id'),
+        path('json/<str:id>/', show_json_by_id, name='show_json_by_id'),
+    ]
+
+    ```
+
+    Langkah terakhir saya adalah menjalankan proyek Django dengan perintah `python manage.py runserver`. Setelah server berjalan, saya bisa membuka URL berikut di `browser` untuk mengakses data yang telah ditambahkan:
+        - XML seluruh data: http://localhost:8000/xml/
+        - JSON seluruh data: http://localhost:8000/json/
+        - XML berdasarkan ID: http://localhost:8000/xml/[id]/
+        - JSON berdasarkan ID: http://localhost:8000/json/[id]/
+
+    Gantilah [id] dengan `ID` dari produk yang ingin dilihat.
