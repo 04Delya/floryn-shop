@@ -514,4 +514,8 @@
 
     Gantilah [id] dengan `ID` dari produk yang ingin dilihat.
 
-    
+- Berikut adalah hasil akses URL yang saya lakukan melalui Postman:
+    1. ![XML](images/URL_Format_JSON.png)
+    2. ![JSON](images/URL_Format_XML.png)
+    3. ![XML by ID](images/URL_Format_JSON_by_ID.png)
+    4. ![JSON by ID](images/URL_Format_XML_by_ID.png)
