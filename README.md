@@ -519,3 +519,220 @@
     2. ![JSON](images/URL_Format_XML.png)
     3. ![XML by ID](images/URL_Format_JSON_by_ID.png)
     4. ![JSON by ID](images/URL_Format_XML_by_ID.png)
+
+## TUGAS 4
+
+- Apa perbedaan antara `HttpResponseRedirect()` dan `redirect()`
+    Dalam membuat sebuah website, fungsi `HttpResponseRedirect()` dan `redirect()` sering digunakan untuk mengarahkan pengguna ke halaman lain setelah mereka melakukan tindakan tertentu. Hal tersebut dapat dilakukan dengan menggunakan fungsi `HttpResponseRedirect()` atau `redirect()`. Fungsi `HttpResponseRedirect()` hanya menerima `URL` sebagai argumen dan langsung mengirimkan pengalihan `HTTP` ke `URL` yang telah ditentukan. Sementara itu, `redirect()` lebih fleksibel karena dapat menerima `URL`, nama *view*, atau model sebagai argumen, yang kemudian dikonversi menjadi `URL`. Secara keseluruhan, `redirect()` mengembalikan hasil yang sama dengan `HttpResponseRedirect()`, tetapi lebih ringkas dan mudah dipahami.
+
+- Jelaskan cara kerja penghubungan model `Product` dengan `User`!
+    Untuk menghubungkan model `Product` dengan `User`, kita perlu menambahkan sebuah atribut bernama `user` ke dalam model `Product`. Atribut ini bertipe `ForeignKey` yang mengarah ke model `User` yang sudah ada di Django. Hal ini berguna untuk menghubungkan setiap produk dengan pengguna yang membuatnya. Saat seorang pengguna membuat produk, kita bisa mengambil data pengguna yang sedang login dari `request.user` dan menyimpannya di *field* `user` dalam model `Product`. Dengan cara ini, setiap produk yang dibuat akan selalu terhubung langsung dengan pengguna yang membuatnya. Jika suatu saat pengguna tersebut dihapus, semua produk yang dia buat pun akan terhapus secara otomatis karena kita menggunakan `on_delete=models.CASCADE`.
+
+- Apa perbedaan antara *authentication* dan *authorization*, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
+    *Authentication* adalah proses untuk memverifikasi identitas pengguna, memastikan bahwa identitas yang mereka berikan valid dan sesuai dengan yang sudah terdaftar. Sementara itu, *authorization* adalah proses untuk menentukan hak akses pengguna setelah mereka berhasil melalui proses *authentication*. Ketika pengguna *login*, sistem akan melakukan *authentication* terlebih dahulu, biasanya dengan memeriksa *username* dan *password* yang dimasukkan. Jika cocok dengan data yang ada, sistem akan menganggap pengguna valid dan memberikan akses.
+
+    Dalam Django, *authentication* diimplementasikan menggunakan modul bawaan yang menyediakan fungsi seperti `authenticate()` untuk memverifikasi kredensial pengguna dan `login()` untuk membuat sesi *login*. Setelah *login* berhasil, Django menggunakan *session* untuk menyimpan informasi *authentication*, sehingga pengguna dapat mengakses halaman yang dilindungi. Untuk *authorization*, Django mengelola hak akses menggunakan *decorator* seperti `@login_required` serta pengaturan izin yang dapat disesuaikan untuk tiap pengguna. Hal tersebut dilakukan untuk memastikan bahwa hanya pengguna yang memiliki *authorization* yang dapat mengakses data atau melakukan tindakan tertentu sesuai dengan izin yang diberikan dalam sistem.
+
+- Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari *cookies* dan apakah semua *cookies* aman digunakan?
+    Pada platform Django, *cookies*, khususnya *session cookies*, berperan penting untuk mengingat pengguna yang telah *login*. Saat pengguna melakukan *login*, Django menugaskan sebuah ***session* ID** yang unik, yang disimpan dalam *session cookie* pada browser pengguna. Setiap kali pengguna mengakses suatu halaman web, browser mengirimkan kembali *cookie* ini ke dalam server. Hal ini memungkinkan Django untuk mengidentifikasi *session* pengguna dan mempertahankan status *login*-nya.
+
+    Berikut ini adalah fungsi lain dari *cookies*:
+
+    1. **Mengingat Preferensi Situs**: *Cookies* mampu menyimpan preferensi seperti tema suatu website atau pilihan bahasa, memfasilitasi pengguna untuk mendapatkan pengaturan yang sama ketika mereka mengunjungi situs tersebut kembali.
+    2. **Pelacakan dan Analisis**: *Cookies* digunakan untuk melacak perilaku pengguna di situs web, seperti halaman yang dikunjungi. Informasi ini berguna untuk analisis penggunaan situs dan membantu dalam peningkatan layanan.
+    3. **Manajemen Iklan**: *Cookies* juga dimanfaatkan untuk menargetkan iklan berdasarkan aktivitas browsing pengguna, membuat iklan yang ditampilkan lebih relevan dengan minat pengguna.
+    
+    Terkait keamanan, *cookies* tidak selalu aman. *Cookies* rentan terhadap serangan seperti pencurian *cookie* atau *cross-site scripting* (XSS). Khususnya, *third-party cookies* sering mendapatkan kritik terkait masalah privasi, karena hal tersebut memungkinkan perusahaan pelacak untuk mengikuti pengguna lintas situs. Oleh karena itu, sangat penting bagi pengguna untuk mengatur keamanan dan privasi pada browser mereka serta mempertimbangkan kebijakan *cookie* dari situs yang mereka kunjungi.
+
+- Jelaskan bagaimana cara kamu mengimplementasikan *checklist* di atas secara *step-by-step* (bukan hanya sekadar mengikuti *tutorial*).
+    1. Mengimplementasikan fungsi registrasi, *login*, dan *logout* untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
+        **a. Membuat Fungsi dan Form Registrasi**
+        Langkah pertama yang saya lakukan untuk membuat fitur registrasi adalah mengaktifkan *virtual environment*, kemudian mengimpor `UserCreationForm` dan `messages` pada bagian atas `views.py`. Kemudian, saya menambahkan fungsi *register* untuk menampilkan *form* registrasi dan memproses data ketika pengguna mendaftar. Jika data yang dimasukkan valid, akun pengguna baru akan dibuat, dan pesan sukses akan ditampilkan menggunakan `messages.success`.
+
+        ```python
+        def register(request):
+            form = UserCreationForm()
+
+            if request.method == "POST":
+                form = UserCreationForm(request.POST)
+                if form.is_valid():
+                    form.save()
+                    messages.success(request, 'Your account has been successfully created!')
+                    return redirect('main:login')
+            context = {'form':form}
+            return render(request, 'register.html', context)
+
+        ```
+
+        Selanjutnya, saya membuat *template* `register.html` untuk menampilkan *form* registrasi. Pada *template* ini, saya menggunakan `{{ form.as_table }}` untuk menampilkan *form* dalam bentuk tabel, sehingga proses pembuatan *form* menjadi lebih sederhana dan terstruktur. Terakhir, saya menambahkan jalur `URL` di `urls.py` agar halaman registrasi dapat diakses. Saya mengimpor fungsi `register` dari `views.py` dan menambahkan *path* `URL` ke dalam `urlpatterns` agar halaman registrasi dapat diakses dengan mudah.
+
+        **b. Membuat Fungsi *Login***
+        Untuk mengimplementasikan fungsi *login*, hal pertama yang saya lakukan adalah mengimpor `authenticate`, `login`, dan `AuthenticationForm` ke dalam file `views.py`. Kemudian, saya menambahkan fungsi `login_user(request)` untuk mengautentikasi pengguna yang ingin masuk ke aplikasi. Jika formulir login valid, pengguna akan diambil menggunakan `form.get_user()` dan masuk dengan fungsi `login(request, user)`, yang akan membuat sesi bagi pengguna tersebut.
+
+        ```python
+        def login_user(request):
+            if request.method == 'POST':
+                form = AuthenticationForm(data=request.POST)
+
+                if form.is_valid():
+                        user = form.get_user()
+                        login(request, user)
+                        return redirect('main:show_main')
+
+            else:
+                form = AuthenticationForm(request)
+            context = {'form': form}
+            return render(request, 'login.html', context)
+        ```
+
+        Selanjutnya, template `login.html` dibuat untuk menampilkan formulir *login*. Terakhir, saya menambahkan jalur `URL` di `urls.py` agar halaman *login* dapat diakses. Saya mengimpor fungsi `login_user(request)` dari `views.py` dan menambahkan *path* `URL` ke dalam `urlpatterns` agar halaman *login* dapat diakses.
+
+        **c. Membuat Fungsi *Logout***
+        Untuk membuat fungsi *logout*, langkah pertama yang saya kerjakan adalah menambahkan impor *logout* ke dalam *file* `views.py` dengan kode `from django.contrib.auth import logout`. Kemudian, saya menambahkan fungsi `logout_user(request)` yang berfungsi untuk menghapus sesi pengguna yang sedang *login* dan mengarahkan mereka kembali ke halaman *login* dengan menggunakan `logout(request)` dan `return redirect('main:login')`. 
+
+        ```python
+        def logout_user(request):
+            logout(request)
+            return redirect('main:login')
+        ```
+
+        Setelah itu, saya membuka *file* `main.html` dan menambahkan *button logout* menggunakan kode `href="{% url 'main:logout' %}"`, yang akan secara dinamis merujuk ke `URL` *logout* yang sudah didefinisikan. 
+
+        ```html
+        ...
+        <a href="{% url 'main:logout' %}">
+        <button>Logout</button>
+        </a>
+        ...
+
+        ```
+
+        Terakhir, saya menambahkan jalur `URL` di `urls.py` agar halaman *logout* dapat diakses. Saya mengimpor fungsi `logout_user(request)` dari `views.py` dan menambahkan *path* `URL` ke dalam `urlpatterns` agar halaman *logout* dapat diakses.
+
+    2. Menampilkan detail informasi pengguna yang sedang *logged in* seperti *username* dan menerapkan *cookies* seperti *last login* pada halaman utama aplikasi.
+
+    Setelah mengimplementasikan fungsi `registrasi`, `login`, dan `logout`, langkah selanjutnya adalah merestriksi akses ke halaman *main* agar hanya dapat diakses oleh pengguna yang sudah *login*. Untuk melakukannya, saya menambahkan impor `login_required` ke dalam *file* `views.py` dengan kode `from django.contrib.auth.decorators import login_required`.
+    
+    Selanjutnya, saya menambahkan *decorator* `@login_required(login_url='/login')` di atas fungsi `show_main` untuk memastikan bahwa hanya pengguna yang sudah terautentikasi dapat mengakses halaman tersebut. Jika pengguna belum login, mereka akan secara otomatis diarahkan ke halaman login. 
+    
+    ```python
+    ...
+    @login_required(login_url='/login')
+    def show_main(request):
+    ...
+
+    ```
+    
+    Setelah menambahkan restriksi ini, saya menjalankan proyek dengan perintah `python manage.py runserver` dan membuka `http://localhost:8000/` di browser.
+
+    Kemudian, saya menambahkan fitur untuk menggunakan *cookies* di aplikasi Django dengan menampilkan data *last login* di halaman *main*. Pertama, saya memastikan telah *logout* dari aplikasi, lalu menambahkan impor `HttpResponseRedirect`, `reverse`, dan `datetime` pada *file* `views.py`.
+
+    Pada fungsi `login_user`, saya menambahkan fungsionalitas untuk membuat *cookie* bernama *last_login* yang berfungsi untuk mencatat kapan terakhir kali pengguna melakukan *login*. Hal ini dilakukan dengan mengganti kode pada blok `if form.is_valid()` dengan kode berikut:
+
+    ```python
+    if form.is_valid():
+        user = form.get_user()
+        login(request, user)
+        response = HttpResponseRedirect(reverse("main:show_main"))
+        response.set_cookie('last_login', str(datetime.datetime.now()))
+        return response
+    ```
+
+    Kode tersebut berfungsi untuk melakukan *login*, membuat *response*, dan menambahkan *cookie last_login* ke dalam *response*. Pada fungsi `show_main`, saya menambahkan *last_login* dari *cookie* ke dalam *context* agar dapat ditampilkan di halaman *main*, kodenya sebagai berikut:
+
+    ```python
+    context = {
+        ...
+        'last_login': request.COOKIES['last_login'],
+    }
+    ```
+
+    Selain itu, saya juga mengubah fungsi `logout_user` agar *cookie last_login* dihapus ketika pengguna *logout*. 
+
+    ```python
+    def logout_user(request):
+        logout(request)
+        response = HttpResponseRedirect(reverse('main:login'))
+        response.delete_cookie('last_login')
+        return response
+    ```
+
+    Selanjutnya, saya menambahkan kode di *file* `main.html` untuk menampilkan waktu *login* terakhir setelah *button logout*.
+
+    ```html
+
+    ...
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
+    ...
+
+    ```
+
+    Terakhir, saya menjalankan proyek Django dengan perintah `python manage.py runserver`, lalu membuat sebuah akun dan melakukan *login*. Data *last login* akan muncul di halaman *main*. Karena saya menggunakan browser `Safari`, maka saya dapat melihat *cookie* melalui fitur *Inspect Element* di bagian `Storage > Cookies`. Jika saya melakukan *logout*, *cookie* akan dihapus dan dibuat ulang ketika saya *login* kembali.
+
+    3. Menghubungkan model `Product` dengan `User`.
+    Untuk menghubungkan setiap `Product` dengan `User` yang membuatnya, pertama-tama saya membuka *file* `models.py` dan menambahkan impor `User` dari `django.contrib.auth.models` dengan kode `from django.contrib.auth.models import User`. Pada model `Product` yang sudah ada, saya menambahkan field `User` dengan menggunakan `ForeignKey` untuk menghubungkan setiap `Product` dengan satu `User`. Hal ini berarti setiap `Product` akan terhubung dengan `User` yang membuatnya.
+
+    ```python
+    class Product(models.Model):
+        user = models.ForeignKey(User, on_delete=models.CASCADE)
+        ...
+    ```
+
+    Selanjutnya, saya membuka kembali *file* `views.py` dan memodifikasi fungsi `create_product`. Pada bagian ini, saya mencegah Django langsung menyimpan `Product` ke dalam *database* dengan menggunakan `commit=False`, sehingga saya dapat menambahkan `User` yang sedang *login* ke `Product` tersebut sebelum disimpan. 
+
+    ```python
+
+    ...
+    def create_product(request):
+        form = ProductForm(request.POST or None)
+
+        if form.is_valid() and request.method == "POST":
+            product = form.save(commit=False)
+            product.user = request.user
+            product.save()
+            return redirect('main:show_main')
+
+        context = {'form': form}
+        return render(request, "create_product.html", context)
+    ...
+
+    ```
+    
+    Setelah itu, pada fungsi `show_main`, saya menambahkan filter agar hanya menampilkan `Products` yang terhubung dengan `User` yang sedang *login*, serta menampilkan *username* pengguna di halaman *main* menggunakan `request.user.username`.
+
+    ```python
+
+    ...
+    def show_main(request):
+    products = Product.objects.filter(user=request.user)
+
+    context = {
+        ...
+        'name': request.user.username,
+        ...
+       
+    }
+
+    ...
+
+    ```
+
+    Sebelum melanjutkan, saya memastikan bahwa sudah ada minimal satu pengguna di *database*. Hal ini penting karena saat melakukan migrasi model, kita akan diminta untuk menetapkan nilai *default* untuk field `User` pada `Products` yang sudah ada di *database*. Setelah memastikan semuanya, saya menyimpan semua perubahan dan melakukan migrasi dengan perintah `python manage.py makemigrations` dan `python manage.py migrate`. Ketika diminta untuk menetapkan nilai *default*, saya memilih opsi 1.
+
+    Setelah migrasi berhasil, saya mempersiapkan aplikasi untuk lingkungan produksi dengan menambahkan `import os` pada `settings.py`, kemudian mengubah variabel `DEBUG` agar sesuai dengan kebutuhan *production*. Selanjutnya, saya menjalankan proyek dengan perintah `python manage.py runserver`, membuat akun baru, dan *login*. `Products` yang telah dibuat oleh akun sebelumnya tidak akan muncul di akun baru, yang menandakan bahwa penghubungan `Product` dengan `User` telah berhasil dilakukan.
+
+    4. Membuat **dua** akun pengguna dengan masing-masing **tiga* *dummy data* menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
+
+    Saya telah membuat dua akun pengguna, namun karena belum ada produk, saya menambahkan tiga data *dummy* yang terhubung dengan model `Product` yang telah dibuat. Akun pertama bernama `Delya`, dengan produk sebagai berikut:
+
+    1. *Red Rose Bouquet* dengan harga `Rp 300.000`, deskripsi `"Express your love with this elegant bouquet of 12 fresh red roses, symbolizing beauty and passion,"` kategori `Flower Bouquet`, dan rating `4.75`.
+    2. *Yellow Tulip* dengan harga `Rp 45.000`, deskripsi `"A bright and cheerful single yellow tulip, representing happiness and hope, ideal for spreading joy,"` kategori `Single Flower`, dan rating `4.50`.
+    3. *Timeless White Wedding Bouquet* dengan harga `Rp 800.000`, deskripsi `"A classic bouquet of 20 fresh white roses and lilies, symbolizing purity and new beginning,"` kategori `Wedding Bouquet`, dan rating `4.90`.
+
+    Sementara itu, akun kedua bernama `Adel`, dengan produk yang dibuat sebagai berikut:
+
+    1. *Sunflower Delight* dengan harga `Rp 80.000`, deskripsi `"An uplifting sunflower, perfect for brightening any day,"` kategori `Single Flower`, dan rating `4.80`.
+    2. *Birthday Bright Blooms* dengan harga `Rp 200.000`, deskripsi `"A cheerful arrangement of sunflowers, lilies, and roses to celebrate birthdays with joy and brightness,"` kategori `Birthday Bouquet`, dan rating `4.75`.
+    3. *Mixed Flower Harmony Arrangement* dengan harga `Rp 300.000`, deskripsi `"A delightful mix of roses, lilies, and daisies, blending colors and fragrances in perfect harmony,"` kategori `Mixed Flower Arrangement`, dan rating `4.85`.
+    
+    Dengan demikian, saya telah berhasil membuat dua akun pengguna beserta masing-masing tiga data *dummy* produk yang terhubung ke model `Product` di aplikasi `Floryn Shop`.
