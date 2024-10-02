@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Card Info</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow-md mb-6 p-6">
+    <div class="mb-4">
+        <h5 class="text-xl font-bold mb-2">Informasi Pengguna</h5>
+        
+        <!-- Menampilkan informasi pengguna -->
+        <p class="text-gray-700"><strong>NPM: </strong>{{ npm }}</p>
+        <p class="text-gray-700"><strong>Nama: </strong>{{ name }}</p>
+        <p class="text-gray-700"><strong>Kelas: </strong>{{ class }}</p>
+        <p class="text-gray-700"><strong>Sesi Terakhir Login: </strong>{{ last_login }}</p>
+    </div>
+</div>
+{% endblock content %}

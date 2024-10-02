@@ -515,10 +515,10 @@
     Gantilah [id] dengan `ID` dari produk yang ingin dilihat.
 
 - Berikut adalah hasil akses URL yang saya lakukan melalui Postman:
-    1. ![XML](images/URL_Format_JSON.png)
-    2. ![JSON](images/URL_Format_XML.png)
-    3. ![XML by ID](images/URL_Format_JSON_by_ID.png)
-    4. ![JSON by ID](images/URL_Format_XML_by_ID.png)
+    1. ![XML](static/image/URL_Format_JSON.png)
+    2. ![JSON](static/image/URL_Format_XML.png)
+    3. ![XML by ID](static/image/URL_Format_JSON_by_ID.png)
+    4. ![JSON by ID](static/image/URL_Format_XML_by_ID.png)
 
 ## TUGAS 4
 
@@ -736,3 +736,345 @@
     3. *Mixed Flower Harmony Arrangement* dengan harga `Rp 300.000`, deskripsi `"A delightful mix of roses, lilies, and daisies, blending colors and fragrances in perfect harmony,"` kategori `Mixed Flower Arrangement`, dan rating `4.85`.
     
     Dengan demikian, saya telah berhasil membuat dua akun pengguna beserta masing-masing tiga data *dummy* produk yang terhubung ke model `Product` di aplikasi `Floryn Shop`.
+
+## TUGAS 5
+
+- Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+
+    Urutan prioritas selektor CSS adalah aspek penting dalam pengembangan web karena membantu menyelesaikan konflik antara berbagai aturan CSS yang memfokuskan elemen yang sama, sehingga memastikan tampilan visual pada sebuah situs tetap konsisten dan akurat. Berikut ini adalah urutan prioritas selektor dari yang tertinggi hingga yang terendah:
+
+    1. `!important`: Digunakan untuk menimpa semua aturan lain, memberikan prioritas tertinggi pada properti tertentu dalam *stylesheet*. Meskipun efektif, penggunaannya disarankan untuk dihindari karena dapat mempersulit pengelolaan CSS.
+    2. `Inline Styles`: *Style* yang diterapkan langsung melalui atribut *style* pada elemen yang memiliki prioritas lebih tinggi dibandingkan `ID selector`, karena diterapkan secara langsung pada elemen tersebut.
+    3. `ID Selector` (#idName):  Selector ini memiliki prioritas lebih tinggi dibandingkan `pseudo-classes`, karena menargetkan elemen berdasarkan ID unik yang sangat spesifik.
+    4. `Pseudo-classes` (seperti :hover, :first-child): Selector ini menargetkan elemen berdasarkan kondisi tertentu, dengan prioritas yang lebih tinggi dari `class` dan `attribute selector`.
+    5. `Attribute Selector` (seperti [type="text"]): Selector ini menargetkan elemen berdasarkan atribut tertentu, dengan prioritas setara dengan `class selector`.
+    6. `Class Selector` (.className): Selector ini menargetkan elemen berdasarkan kelas yang diberikan, memiliki prioritas yang lebih tinggi dari `type selector`.
+    7. `Type Selector` (seperti h1, div, p): Selector ini menargetkan elemen berdasarkan jenisnya, dengan prioritas lebih tinggi dari `universal selector`.
+    8. `Universal Selector` (*): Selector ini berada pada prioritas terendah dan berlaku untuk semua elemen dalam dokumen HTML.
+
+    Dengan urutan ini, jika beberapa *selector* memiliki *specificity* yang sama, aturan yang terletak paling akhir dalam *file* CSS akan digunakan.
+
+- Mengapa *responsive design* menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan *responsive design*!
+    *Responsive Design* merupakan aspek yang penting dalam pengembangan web karena memungkinkan suatu *website* untuk menyesuaikan dengan ukuran layar yang beragam dari berbagai perangkat, seperti *desktop*, tablet, dan ponsel. Pentingnya *design* ini dapat dilihat dari banyaknya pengguna saat ini yang mengakses internet menggunakan perangkat dengan resolusi yang berbeda-beda. Tanpa *responsive design*, *website* dapat terlihat kurang sesuai dan sulit untuk dioperasikan pada perangkat tertentu.
+
+    Sebagai contoh, **GitHub** telah berhasil menerapkan *responsive design*. Dalam tampilan *desktop*, web ini menampilkan *layout* dengan menu yang lengkap serta memudahkan akses ke berbagai repositori dan fungsi pengembangan. Sebaliknya, pada perangkat *mobile*, tampilannya disederhanakan dengan menu utama yang dikompres ke dalam menu hamburger, memudahkan navigasi dan mengoptimalkan ruang. Di sisi lain, banyak situs web tua atau yang tidak terawat masih menggunakan desain statis dan tidak *responsive*, menghasilkan tampilan yang tidak optimal di perangkat *mobile*. Hal ini sering terjadi pada situs berita lokal dan bisnis kecil yang belum memperbarui *design* mereka. Begitu juga beberapa situs *e-commerce* kecil yang belum menerapkan *responsive design* dan membuat pengguna *mobile* kesulitan untuk mengeksplorasi produk dan melakukan transaksi. 
+
+    Pentingnya mengimplementasikan *responsive design* tidak hanya untuk memastikan fungsi *website *yang efektif di berbagai perangkat, tetapi juga untuk meningkatkan pengalaman pengguna secara keseluruhan.
+
+- Jelaskan perbedaan antara *margin*, *border*, dan *padding*, serta cara untuk mengimplementasikan ketiga hal tersebut!
+    Perbedaan antara *margin*, *border*, dan *padding* dalam CSS sangat penting untuk memahami tata letak dan *design* elemen pada halaman web. Berikut penjelasan detail-nya:
+
+    1. ***Margin*** adalah ruang di luar elemen yang memisahkan elemen tersebut dari elemen lain. Fungsinya adalah untuk mengatur jarak antara elemen dengan elemen lain di sekitarnya. Menambahkan *margin* akan mempengaruhi posisi elemen, membuatnya lebih jauh dari elemen lain di halaman web.
+    2. ***Border*** adalah garis di sekitar elemen yang memisahkan konten elemen dari elemen lain. *Border* memiliki ketebalan, *style*, warna, dan berfungsi sebagai batas visual. Penambahan *border* akan memperluas ukuran elemen, karena *border* menjadi bagian dari dimensi elemen tersebut.
+    3. ***Padding*** adalah ruang di dalam elemen yang mengelilingi konten, antara konten elemen dan *border*. *Padding* memberi ruang agar konten tidak terlalu dekat dengan batas elemen. Seperti *border*, menambahkan *padding* juga akan memperbesar ukuran elemen karena *padding* dihitung dalam dimensi elemen.
+
+    Sebagai contoh, kita dapat menggunakan CSS seperti berikut:
+    ```css
+    .container {
+        margin: 25px;
+        border: 2px solid pink;
+        padding: 10 px;
+    }
+    ```
+
+    Dengan memahami dan mengatur *margin*, *border*, dan *padding*. Kita dapat lebih mudah untuk mengatur tata letak elemen di halaman web, memberikan ruang yang proporsional dan tampilan yang lebih rapi.
+
+- Jelaskan konsep *flex box* dan *grid layout* beserta kegunaannya!
+    Konsep ***Flex Box*** dan ***Grid Layout*** adalah dua metode utama dalam CSS yang digunakan untuk mengatur tata letak elemen pada halaman web, masing-masing memiliki keunggulan dan kegunaan tersendiri.
+
+    1. *Flex Box*
+    *Flex Box (Flexible Box Layout)* adalah model tata letak satu dimensi dalam CSS untuk mengatur elemen dalam baris atau kolom. *Flex Box* ini fleksibel dalam penyelarasan dan distribusi ruang antar elemen. *Flex Box* juga sangat berguna untuk tata letak sederhana dan responsif, memungkinkan elemen secara otomatis menyesuaikan ukuran berdasarkan layar.
+
+    Contoh penggunaan *Flex Box* pada CSS:
+    ```css
+    .flex-container {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .flex-item {
+        flex: 1;
+    }
+    ```
+
+    2. *Grid Layout*
+    *Grid Layout* adalah model tata letak dua dimensi dalam CSS yang memungkinkan pengaturan elemen dalam baris dan kolom secara bersamaan. *Grid Layout* juga memberikan kontrol lebih besar untuk membuat tata letak kompleks dan terstruktur, seperti halaman *dashboard*. *Grid Layout* sangat efektif untuk tata letak *responsive*, memungkinkan penyesuaian jumlah kolom dan baris berdasarkan ukuran layar. Selain itu, CSS *Grid* memungkinkan penempatan elemen di area tertentu tanpa mengubah struktur HTML, memberikan kontrol penuh atas posisi dan ukuran elemen.
+
+    Contoh penggunaan *Grid Layout* pada CSS:
+    ```css
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-gap: 10px;
+    }
+
+    .grid-item {
+        grid-row: span 2;
+    }
+    ```
+    *Flex Box* sangat ideal untuk tata letak satu dimensi, di mana elemen-elemen diatur dalam satu arah (baris atau kolom) dengan penyelarasan dan distribusi yang fleksibel. Sementara itu, *Grid Layout* lebih cocok untuk tata letak dua dimensi yang kompleks, di mana elemen-elemen diatur dalam baris dan kolom dengan kontrol penuh atas posisi dan ukuran elemen.
+
+- Jelaskan bagaimana cara kamu mengimplementasikan *checklist* di atas secara *step-by-step* (bukan hanya sekadar mengikuti *tutorial*)!
+
+    1. Implementasikan fungsi untuk menghapus dan mengedit product.
+
+    Hal pertama yang saya lakukan sebelum mengimplementasikan fungsi *edit* dan *delete* produk adalah memastikan halaman web responsif pada perangkat *mobile* dengan membuka *file* `base.html` dan menambahkan *tag* `<meta name="viewport">`. Selanjutnya, saya menyambungkan *template* Django dengan `Tailwind CSS` menggunakan `script CDN` di dalam *tag* `<head>`.
+
+    Setelah itu, saya membuat fungsi `edit_product` di *file* `views.py`, yang akan menangani pengeditan produk berdasarkan ID yang diterima. Saya juga memastikan untuk mengimpor fungsi yang diperlukan. Kemudian, saya membuat berkas HTML baru bernama `edit_product.html`, yang berisi *form* untuk mengedit data produk. Selanjutnya, saya menambahkan *path* URL untuk fungsi *edit* di `urls.py` dan menambahkan *edit button* pada tabel di `main.html` dengan menggunakan *tag* `{% url 'main:edit_product' product.pk %}`.
+
+    Untuk menambahkan fitur *delete*, saya membuat fungsi `delete_product` di `views.py` untuk menghapus produk berdasarkan ID. Setelah itu, saya menambahkan *path* URL untuk fungsi ini di `urls.py` dan menambahkan *delete button* di `main.html` yang mengarah ke fungsi *delete*. Setelah semua langkah ini selesai, saya menjalankan proyek Django menggunakan perintah `python manage.py runserver` dan menguji fitur *edit* serta *delete* produk. Jika semua berfungsi dengan baik, maka fitur tersebut telah berhasil diimplementasikan.
+
+    2. Kustomisasi desain pada *template* HTML yang telah dibuat pada tugas-tugas sebelumnya menggunakan CSS atau CSS framework (seperti Bootstrap, Tailwind, Bulma) dengan ketentuan sebagai berikut:
+    - Kustomisasi halaman *login*, *register*, dan tambah *product* semenarik mungkin.
+    - Kustomisasi halaman daftar *product* menjadi lebih menarik dan *responsive*. Kemudian, perhatikan kondisi berikut:
+        -Jika pada aplikasi belum ada *product* yang tersimpan, halaman daftar *product* akan menampilkan gambar dan pesan bahwa belum ada *product* yang terdaftar.
+        -Jika sudah ada *product* yang tersimpan, halaman daftar *product* akan menampilkan detail setiap *product* dengan menggunakan ***card* (tidak boleh sama persis dengan desain pada Tutorial!).**
+    - Untuk setiap ***card product***, buatlah dua buah *button* untuk mengedit dan menghapus *product* pada ***card*** tersebut!
+    - Buatlah *navigation bar (navbar)* untuk fitur-fitur pada aplikasi yang *responsive* terhadap perbedaan ukuran *device*, khususnya *mobile* dan *desktop*.
+
+    Untuk memenuhi *checklist* ini, langkah pertama yang saya lakukan adalah menambahkan `Middleware WhiteNoise` di `settings.py` agar Django dapat mengelola *file* statis secara otomatis dalam mode produksi `(dengan DEBUG=False)` tanpa konfigurasi yang kompleks. Berikut adalah penambahan yang dilakukan:
+
+    ```python
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',  # Tambahkan tepat di bawah SecurityMiddleware
+        ...
+    ]
+    ```
+
+    Selanjutnya, saya mengonfigurasi *file* statis dengan memastikan variabel `STATIC_URL`, `STATICFILES_DIRS`, dan `STATIC_ROOT` dikonfigurasi dengan benar:
+
+    ```python
+    STATIC_URL = '/static/'
+    if DEBUG:
+        STATICFILES_DIRS = [BASE_DIR / 'static']  # Mode development
+    else:
+        STATIC_ROOT = BASE_DIR / 'static'  # Mode production
+    ```
+
+    Setelah itu, saya membuat *file* `global.css` di `/static/css` untuk menambahkan gaya CSS kustom. Saya juga menghubungkan `global.css` dan `Tailwind` ke `base.html` dengan modifikasi berikut:
+
+    ```html
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {% block meta %} {% endblock meta %}
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
+    </head>
+    <body>
+        {% block content %} {% endblock content %}
+    </body>
+    </html>
+    ```
+
+    **a) Kustomisasi Halaman *Login***
+
+    Halaman *login* saya menggunakan gambar latar belakang `flower-login.jpg` yang mencerminkan konsep toko bunga. Halaman ini memanfaatkan *flex box* untuk memposisikan formulir di tengah halaman dan menggunakan efek transparansi.
+
+    *Overview*:
+    ```html
+    <div class="min-h-screen flex items-center justify-center bg-login px-4">
+        <div class="bg-white bg-opacity-70 p-8 rounded-lg shadow-lg max-w-md w-full">
+            <h1 class="text-2xl font-bold text-center mb-6">Login</h1>
+            <form method="POST" action="{% url 'main:login' %}">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Sign in</button>
+            </form>
+            <div>
+                Don't have an account? <a href="{% url 'main:register' %}">Register now</a>
+            </div>
+        </div>
+    </div>
+    ```
+
+    **b) Kustomisasi Halaman Registrasi**
+
+    Desain halaman registrasi serupa dengan halaman *login*, menggunakan latar belakang `flower-login.jpg`. Halaman ini juga memanfaatkan *flex box* untuk memposisikan formulir di tengah halaman.
+
+    *Overview*:
+    ```html
+    <div class="min-h-screen flex items-center justify-center bg-login px-4">
+        <div class="bg-white bg-opacity-70 p-8 rounded-lg shadow-lg max-w-md w-full">
+            <h1 class="text-2xl font-bold text-center mb-6">Create your account</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password2" placeholder="Password confirmation" required>
+                <button type="submit">Register</button>
+            </form>
+            <div>
+                Already have an account? <a href="{% url 'main:login' %}">Login here</a>
+            </div>
+        </div>
+    </div>
+    ```
+
+    **c) Kustomisasi Halaman Home yang Berisi Daftar Produk dan Informasi Pengguna**
+
+    Desain halaman utama (*Home*) menampilkan informasi pengguna serta daftar produk yang ada dalam format *grid*. Setelah berhasil *login*, pengguna dapat mengakses halaman ini, yang menyediakan opsi untuk menambahkan produk baru melalui `add product` *button*. Selain itu, fungsionalitas untuk mengedit dan menghapus produk yang sudah ada juga tersedia.
+
+    *Overview*:
+    ```html
+    <div class="pt-16 min-h-screen bg-pink-200 flex flex-col justify-between pb-20"> 
+        <div class="container mx-auto px-4">
+            
+            <!-- Menampilkan Informasi Pengguna -->
+            <div class="flex justify-center mb-8">
+                <div class="w-full max-w-2xl">
+                    {% include 'card_info.html' %}
+                </div>
+            </div>
+
+            <!-- Menampilkan Daftar Produk Jika Ada -->
+            {% if products %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
+                
+                <!-- Button Tambah Produk Baru -->
+                <div class="bg2-addproduct bg2-opacity-70 p-6 rounded-lg shadow-md flex items-center justify-center">
+                    <a href="{% url 'main:create_product' %}" class="bg-blue-500 hover:bg-purple-400 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+                        Add New Product
+                    </a>
+                </div>
+
+                <!-- Menampilkan Produk yang Ada -->
+                {% for product in products %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    {% include 'card_product.html' %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <!-- Jika Tidak Ada Produk, Maka akan Menampilkan Gambar Sedih dan Button Tambah Produk -->
+            <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                <a href="{% url 'main:create_product' %}" class="bg-blue-500 hover:bg-purple-400 text-white font-bold py-2 px-4 rounded-lg mb-4 -mb-100 transition duration-300 ease-in-out">
+                Add New Product
+                </a>
+                <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+                <p class="text-center text-gray-600 mt-4">Belum ada produk pada Floryn Shop.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    ```
+    Pada kode yang diimplementasikan di `main.html`, terdapat `include` dari *file* `navbar.html`, yang berisi *navbar* yang memberikan navigasi menuju halaman *Home* dengan tautan yang diambil dari `{% url 'main:show_main' %}`. Selain itu, ada juga fitur *Logout* yang menggunakan `{% url 'main:logout' %}` untuk keluar dari aplikasi. Namun, fitur navigasi lainnya, seperti `Products` dan `Categories`, masih berupa *placeholder* (*TBA*).
+
+    Untuk memastikan responsivitas pada layar kecil, kode `JavaScript` berikut digunakan untuk mengatur *navbar* agar dapat disembunyikan atau ditampilkan sesuai dengan interaksi pengguna. Berikut adalah *script*-nya:
+
+    ```javascript
+    document.getElementById('menu-button').addEventListener('click', function() {
+        var menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+        menu.classList.toggle('transition-all');
+    });
+    ```
+
+
+    **d) Kustomisasi Halaman Tambah Produk Baru**
+
+    Halaman untuk menambahkan produk baru dirancang dengan tampilan yang menarik menggunakan latar belakang gradasi. Di tengah halaman, terdapat elemen *card* berwarna putih yang berfungsi untuk meletakkan formulir pengisian detail produk, termasuk nama, harga, deskripsi, kategori, dan *rating*. Di bawah formulir tersebut, terdapat `add product` *button* yang memudahkan pengguna untuk menavigasi dan menambah produk baru. Selain itu, terdapat `back` *button* yang memungkinkan pengguna untuk kembali ke halaman utama.
+
+    *Overview*:
+    ```html
+    <div class="flex flex-col min-h-screen bg-gradient-to-r from-pink-200 via-purple-200 to-blue-200">
+        <div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
+                <h1 class="text-3xl font-bold text-center mb-8 text-black">Add New Product</h1>
+                
+                <div class="bg-white shadow-md rounded-lg p-6 form-style">
+                    <!-- Form untuk Membuat Produk Baru -->
+                    <form method="POST" class="space-y-6">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="flex flex-col">
+                                <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-gray-700">
+                                    {{ field.label }}
+                                </label>
+                                <div class="w-full">
+                                    <!-- Input field -->
+                                    {{ field }}
+                                </div>
+                                {% if field.help_text %}
+                                    <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <!-- Menampilkan Error untuk Field -->
+                                    <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                        
+                        <div class="flex justify-between mt-6 space-x-4">
+                            <!-- Button untuk Kembali -->
+                            <a href="{% url 'main:show_main' %}" class="bg-pink-200 text-black font-semibold px-6 py-3 rounded-lg hover:bg-pink-300 transition duration-300 ease-in-out w-full text-center flex items-center justify-center">
+                                Back
+                            </a>
+                            
+                            <!-- Button untuk Menambahkan Produk -->
+                            <button type="submit" class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-pink-300 transition duration-300 ease-in-out w-full">
+                                Add Product
+                            </button>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+    ```
+
+    **e) Kustomisasi Halaman *Edit* Produk**
+
+    Halaman *edit* produk memiliki desain yang serupa dengan halaman penambahan produk. Dengan latar belakang yang menampilkan gradasi warna, halaman ini menyajikan tampilan yang menarik. Di bagian tengah, terdapat sebuah *card* berwarna putih yang digunakan untuk maletakkan formulir yang memuat detail produk seperti nama, harga, deskripsi, kategori, dan *rating*. `edit product` *button* disediakan di bawah formulir untuk memfasilitasi pengguna dalam memperbarui produk mereka. Terdapat juga `back` *button* yang memudahkan pengguna untuk navigasi kembali ke halaman utama.
+
+    *Overview*:
+    ```html
+    <div class="flex flex-col min-h-screen bg-gradient-to-r from-pink-200 via-purple-200 to-blue-200">
+        <div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
+            <h1 class="text-3xl font-bold text-center mb-8 text-black">Edit Product</h1>
+            
+            <div class="bg-white rounded-lg p-6 form-style">
+                <!-- Form untuk Mengedit Produk -->
+                <form method="POST" class="space-y-6">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="flex flex-col">
+                            <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-gray-700">
+                                {{ field.label }}
+                            </label>
+                            <div class="w-full">
+                                <!-- Input Field -->
+                                {{ field }}
+                            </div>
+                            {% if field.help_text %}
+                                <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
+                            {% endif %}
+                            <!-- Menampilkan Pesan Error untuk Field -->
+                            {% for error in field.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="flex justify-center mt-6 space-x-4">
+                        <!-- Button untuk Kembali -->
+                        <a href="{% url 'main:show_main' %}" class="bg-pink-200 text-black font-semibold px-6 py-3 rounded-lg hover:bg-pink-300 transition duration-300 ease-in-out w-full text-center flex items-center justify-center">
+                            Back
+                        </a>
+                        
+                        <!-- Button untuk Mengedit Produk -->
+                        <button type="submit" class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-pink-300 transition duration-300 ease-in-out w-full">
+                            Edit Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    ```
+    
+    Dengan demikian, kustomisasi desain pada aplikasi web ini berfokus pada pengoptimalan halaman *login*, *register*, tambah produk, dan daftar produk menggunakan CSS dan *framework* `Tailwind`. *Responsive Design* diterapkan untuk memastikan tampilan yang menarik di berbagai ukuran perangkat, dengan memanfaatkan *grid* dan *flex box* untuk menyusun elemen. Halaman produk dirancang dinamis, memudahkan pengguna untuk menambah, meng-*edit*, atau menghapus produk, serta menampilkan pesan dan gambar sedih `(format PNG)` jika tidak ada produk yang terdaftar. Navigasi juga dibuat *responsive*, menyesuaikan tampilan di perangkat *mobile* dan *desktop*.
