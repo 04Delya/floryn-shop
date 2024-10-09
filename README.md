@@ -1078,3 +1078,450 @@
     ```
     
     Dengan demikian, kustomisasi desain pada aplikasi web ini berfokus pada pengoptimalan halaman *login*, *register*, tambah produk, dan daftar produk menggunakan CSS dan *framework* `Tailwind`. *Responsive Design* diterapkan untuk memastikan tampilan yang menarik di berbagai ukuran perangkat, dengan memanfaatkan *grid* dan *flex box* untuk menyusun elemen. Halaman produk dirancang dinamis, memudahkan pengguna untuk menambah, meng-*edit*, atau menghapus produk, serta menampilkan pesan dan gambar sedih `(format PNG)` jika tidak ada produk yang terdaftar. Navigasi juga dibuat *responsive*, menyesuaikan tampilan di perangkat *mobile* dan *desktop*.
+
+## TUGAS 6
+
+- Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+    JavaScript kini telah berkembang menjadi pondasi utama dalam pengembangan aplikasi web yang kompleks, baik di sisi klien maupun server. Berikut adalah beberapa manfaat utama dari JavaScript:
+    1. Interaktivitas Tingkat Tinggi: JavaScript memungkinkan pembuatan antarmuka pengguna yang responsif dan interaktif, mengubah halaman web statis menjadi aplikasi dinamis yang mampu merespons interaksi pengguna secara *real-time* tanpa memerlukan pemuatan ulang halaman.
+    2. Kemampuan *Cross-Platform*: JavaScript mendukung pengembangan aplikasi yang dapat berjalan secara konsisten di berbagai platform, termasuk web, *mobile* (misalnya, melalui *React Native*), dan perangkat IoT, sehingga memudahkan penciptaan solusi terintegrasi.
+    3. Pengembangan *Full-Stack* dengan `Node.js`: Dengan kemampuan menggunakan JavaScript di sisi klien dan server melalui `Node.js`, pengembang dapat bekerja dengan satu bahasa di seluruh tumpukan teknologi, yang meningkatkan efisiensi dalam pengembangan dan pemeliharaan aplikasi.
+    4. Ekosistem yang Luas: JavaScript memiliki dukungan dari komunitas besar dan aktif, serta ekosistem dan framework yang menyediakan banyak alat dan sumber daya untuk mempercepat dan mempermudah proses pengembangan.
+    5. Proses Asinkron: Teknik seperti `AJAX` dan `Fetch API` memungkinkan aplikasi untuk berkomunikasi dengan server secara asinkron, memfasilitasi pengambilan, pengiriman, dan manipulasi data tanpa mengganggu tampilan atau fungsi halaman, sehingga meningkatkan performa dan pengalaman pengguna.
+
+- Jelaskan fungsi dari penggunaan `await` ketika kita menggunakan `fetch()`! Apa yang akan terjadi jika kita tidak menggunakan `await`?
+    Dalam JavaScript, `await` digunakan dalam konteks *asynchronous programming* dengan *async functions* dan `fetch()` untuk menangani `promises`.
+
+    **Fungsi `await` ketika menggunakan `fetch()`**
+    Ketika menggunakan `fetch()`, fungsi `await` digunakan untuk menunggu *promise* dari `fetch()` selesai. Hal ini berarti, baris kode setelah `await`, `fetch()` tidak akan dieksekusi sampai `fetch()` mendapatkan *response* dari server. Hasil dari `fetch()` kemudian dapat diproses lebih lanjut, seperti mengubah *response* menjadi `JSON` atau melakukan operasi lain tergantung pada data yang diterima.
+
+    **Apa yang Terjadi Jika `await` Tidak Digunakan?**
+    Jika `await` tidak digunakan dengan `fetch()`, eksekusi kode akan terus berlanjut tanpa menunggu *response* dari `fetch()`. Hal ini berarti kode yang bergantung pada hasil dari `fetch()` mungkin dijalankan sebelum data sebenarnya diterima, yang dapat menyebabkan *error* atau hasil yang tidak diharapkan. Contohnya, jika kita mencoba memproses *response* sebagai `JSON` tanpa menunggu `fetch()` selesai akan terjadi *error* karena *response* belum tersedia pada saat kode dijalankan.
+
+- Mengapa kita perlu menggunakan *decorator* `csrf_exempt` pada *view* yang akan digunakan untuk AJAX `POST`?
+    *Decorator* `csrf_exempt` digunakan pada fungsi *view* untuk permintaan AJAX `POST` dalam situasi tertentu dimana token CSRF tidak diperlukan. Biasanya, Django memerlukan token CSRF untuk setiap permintaan `POST` untuk melindungi aplikasi dari serangan CSRF, di mana penyerang mencoba melakukan aksi tidak sah dengan menggunakan akun pengguna yang telah *login*.
+
+    Namun, dalam beberapa kondisi khusus, token CSRF ini mungkin tidak diperlukan, seperti:
+    1. Pengembangan dan Pengujian: Ketika sedang melakukan pengembangan atau pengujian aplikasi, serangan CSRF biasanya bukanlah ancaman langsung, sehingga `csrf_exempt` dapat digunakan untuk memudahkan proses tanpa harus menghadapi masalah keamanan CSRF.
+    2. API Server-ke-Server: Pada *endpoint* yang hanya digunakan antar server tanpa melibatkan browser, serangan CSRF tidak relevan karena tidak ada pengguna browser yang *login* dan bisa dimanfaatkan oleh penyerang.
+    3. Situasi yang Aman dari CSRF: Dalam kondisi tertentu yang sudah aman dari serangan CSRF, seperti permintaan yang berasal dari aplikasi yang terpisah atau dari jaringan internal yang terkontrol, penggunaan CSRF mungkin tidak diperlukan.
+
+    Meskipun `csrf_exempt` memungkinkan kita melakukan permintaan tanpa token CSRF, hal ini perlu dilakukan dengan sangat hati-hati karena dapat mengurangi keamanan yang sangat penting. Jika memungkinkan, sebaiknya kita harus selalu menyertakan token CSRF dalam permintaan AJAX.
+
+- Pada tutorial PBP minggu ini, pembersihan data *input* pengguna dilakukan di belakang (*backend*) juga. Mengapa hal tersebut tidak dilakukan di *frontend* saja?
+    Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan juga di *backend*, bukan hanya di *frontend*. Hal ini penting karena meskipun validasi *frontend* bermanfaat untuk memperbaiki pengalaman pengguna, namun hanya bergantung kepada *frontend* saja tidak cukup. Ada beberapa alasan utama untuk ini, antara lain:
+    1. Peningkatan Keamanan: Data yang dikirim dari *frontend* dapat diubah oleh pengguna atau oleh pihak yang tidak berwenang sebelum mencapai server. Validasi dan pembersihan di *backend* sangat penting untuk memblokir data berbahaya atau skrip yang merusak dari merusak sistem atau *database*.
+    2. Konsistensi Data: Dengan melakukan validasi di *backend*, kita bisa memastikan bahwa semua data yang diterima oleh server memenuhi standar yang diharapkan, tanpa harus bergantung pada pemeriksaan yang dilakukan di *frontend*. Hal ini penting karena validasi *frontend* dapat dengan mudah di-bypass, seperti dalam kasus pengguna yang menonaktifkan JavaScript di browser mereka.
+    3. Kontrol yang Lebih Komprehensif: *Backend* memberikan kemampuan untuk melakukan validasi dan pembersihan data yang lebih kompleks. Hal ini termasuk tugas-tugas seperti memeriksa duplikasi data atau mengonfirmasi keaslian pengguna, yang tidak bisa dilakukan secara efektif hanya di *frontend*.
+    
+    Dengan memastikan bahwa validasi dilakukan baik sisi *frontend* maupun *backend*, aplikasi menjadi lebih aman, stabil, dan dapat diandalkan, mengolah data yang telah diverifikasi dan dibersihkan dari segala kemungkinan masalah.
+
+- Jelaskan bagaimana cara kamu mengimplementasikan *checklist* di atas secara *step-by-step* (bukan hanya sekadar mengikuti tutorial)!
+    Mengubah tugas 5 yang telah dibuat sebelumnya menjadi menggunakan AJAX.
+
+    1. AJAX GET
+        - Ubahlah kode *cards* data *product* agar dapat mendukung AJAX GET.
+        Untuk mendukung AJAX GET pada bagian *cards* data *product*, saya mengubah kode saya dengan menggunakan `Fetch API` untuk mengambil data secara asinkron dan memperbarui tampilan halaman tanpa perlu melakukan *refresh* penuh.
+
+        Langkah pertama yang saya lakukan sebelum melakukan perubahan adalah menambahkan pesan *error* terlebih dahulu ke dalam *function* `login_user` di `views.py` dan memberikan *conditional*, berikut adalah kode yang saya gunakan:
+
+        ```python
+        def login_user(request):
+            if request.method == 'POST':
+                form = AuthenticationForm(data=request.POST)
+
+                if form.is_valid():
+                    user = form.get_user()
+                    login(request, user)
+                    response = HttpResponseRedirect(reverse("main:show_main"))
+                    response.set_cookie('last_login', str(datetime.datetime.now()))
+                    return response
+                else:
+                    messages.error(request, "Invalid username or password. Please try again.")
+                    
+            else:
+                form = AuthenticationForm(request)
+            context = {'form': form}
+            return render(request, 'login.html', context)
+        ```
+
+        `messages.error(request, msg)` akan "menyematkan" pesan *error* ke dalam *request* yang dikirimkan selama proses *login*. Pesan ini nantinya akan muncul di *template* `login.html` untuk memberikan *feedback* kepada pengguna tentang adanya kesalahan saat *login*.
+
+        Hal kedua yang saya lakukan adalah menghapus *block conditional* yang memeriksa apakah ada data *product* pada `main.html`. Gantikan dengan elemen kosong yang akan diisi oleh hasil dari request asinkron. Contohnya, saya bisa menghapus block conditional seperti ini:
+
+        ```html
+        {% if products %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
+                <!-- Menampilkan Produk yang Ada -->
+                {% for product in products %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    {% include 'card_product.html' %}
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Jika Tidak Ada Produk, Menampilkan Gambar Sedih -->
+            <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+                <p class="text-center text-gray-600 mt-4">Belum ada produk pada Floryn Shop.</p>
+            </div>
+        {% endif %}
+        ```
+
+        Ganti dengan elemen ini:
+        ```html
+        <div id="mood_entry_cards"></div>
+        ```
+
+        Kemudian, saya membuat sebuah fungsi JavaScript yang akan mengambil data secara asinkron menggunakan `Fetch API`. Fungsi ini akan melakukan *request* ke server untuk mendapatkan data JSON dan kemudian memperbarui tampilan halaman dengan *cards* yang sesuai. Contohnya seperti ini:
+
+        ```javascript
+        ...
+        <script>
+            async function getProducts(){
+                return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+            }
+            
+            async function refreshProducts() {
+                document.getElementById("product_cards").innerHTML = "";
+                document.getElementById("product_cards").className = "";
+                const products = await getProducts(); // Assuming this fetches the product data from your server
+                let htmlString = "";
+                let classNameString = "";
+
+                if (products.length === 0) {
+                    classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+                    htmlString = `
+                        <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                            <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+                            <p class="text-center text-gray-600 mt-4">Belum ada data product pada Floryn Shop.</p>
+                        </div>
+                    `;
+                } else {
+                    classNameString = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10"; // Tambahkan grid layout di sini
+                    products.forEach((item) => {
+                        const name = DOMPurify.sanitize(item.fields.name);
+                        const price = DOMPurify.sanitize(item.fields.price);
+                        const description = DOMPurify.sanitize(item.fields.description);
+                        const category = DOMPurify.sanitize(item.fields.category);
+                        const rating = DOMPurify.sanitize(item.fields.rating);
+
+                        htmlString += `
+                        <div class="bg-white p-6 rounded-lg shadow-md"> <!-- Tambahkan class ini di luar card -->
+                        <div class="rounded-lg border border-gray-200 shadow-lg hover:shadow-2xl transition-shadow duration-300 max-w-sm mx-auto">
+                            <div class="p-5">
+                            <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">${name}</h5>
+                            <p class="font-normal text-gray-700 mb-2">Price: Rp ${price}</p>
+                            <p class="font-normal text-gray-700 break-words mb-2">Description: ${description}</p>
+                            <p class="font-normal text-gray-700 mb-2">Category: ${category}</p>
+                            <p class="font-normal text-gray-700">Rating: 
+                                <span class="text-yellow-500">${rating} &#9733;</span>
+                            </p>
+                            </div>
+                            
+                            <div class="bg-gray-100 p-4 flex justify-between items-center">
+                            <!-- Button Edit -->
+                            <a href="/edit-product/${item.pk}" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-full p-2 transition duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                </svg>
+                            </a>
+
+                            <!-- Button Delete -->
+                            <a href="/delete-product/${item.pk}" class="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                            </div>
+                        </div>
+                        </div>
+                        `;
+                });
+            }
+                document.getElementById("product_cards").className = classNameString;
+                document.getElementById("product_cards").innerHTML = htmlString;
+            }
+            refreshProducts();
+        ...
+        </script>
+
+        ```
+
+        Pendekatan ini akan melakukan *request* GET untuk mendapatkan data produk dalam format JSON, memproses hasilnya, dan kemudian menampilkan *cards* produk di dalam elemen dengan ID `product_cards`. Fungsi `refreshProducts` juga bisa dipanggil kapan saja untuk memperbarui tampilan tanpa perlu reload halaman. Dengan perubahan ini, tampilan `product_cards` akan mendukung AJAX GET, yang memungkinkan pengambilan dan penampilan data secara dinamis dari server.
+
+        - Lakukan pengambilan data *product* menggunakan AJAX GET. Pastikan bahwa data yang diambil hanyalah data milik pengguna yang *logged-in*.
+
+        Langkah pertama yang saya kerjakan adalah memodifikasi `main/views.py` dengan menghapus baris `products = Product.objects.filter(user=request.user)` serta konteks `{'products': products}`. Setelah itu, saya juga melakukan penyesuaian pada fungsi `show_xml` dan `show_json`, dengan memodifikasi data yang digunakan menjadi `data = Product.objects.filter(user=request.user)`, sehingga hanya menampilkan data milik pengguna yang sedang *login*. Selanjutnya, saya membuat modal di `form.html`, yang nantinya akan saya *include* ke dalam `main.html` menggunakan *framework* Tailwind yang sudah diterapkan sebelumnya.
+
+        {% extends 'base.html' %}
+
+        {% load static %}
+        {% block meta %}
+        <title>Modal Form</title>
+        {% endblock meta %}
+
+        {% block content %}
+        <form id="productForm">
+        <div class="mb-4">
+            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter flower name" required>
+        </div>
+        
+        <div class="mb-4">
+            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+            <input type="number" id="price" name="price" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Insert price" required>
+        </div>
+        
+        <div class="mb-4">
+            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="description" name="description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter product description" required></textarea>
+        </div>
+        
+        <div class="mb-4">
+            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+            <select id="category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" required>
+            <option value="" disabled selected>Select a category</option>
+            <option value="Single Flower">Single Flower</option>
+            <option value="Mixed Flower Arrangement">Mixed Flower Arrangement</option>
+            <option value="Flower Bouquet">Flower Bouquet</option>
+            <option value="Wedding Bouquet">Wedding Bouquet</option>
+            <option value="Seasonal Bouquet">Seasonal Bouquet</option>
+            <option value="Birthday Bouquet">Birthday Bouquet</option>
+            <option value="Anniversary Bouquet">Anniversary Bouquet</option>
+            <option value="Custom Design Bouquet">Custom Design Bouquet</option>
+            </select>
+        </div>
+        
+        <div class="mb-4">
+            <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
+            <input type="number" id="rating" name="rating" step="0.01" min="0.00" max="5.00" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter rating (0.00 - 5.00)" required>
+        </div>
+        </form>
+        {% endblock content %}
+
+        Dengan menggunakan beberapa class bawaan (built-in), saya menambahkan beberapa fungsi di dalam block `<script>` untuk memastikan modal dapat berfungsi dan terintegrasi dengan baik ke dalam website. Berikut adalah *function* yang saya tambahkan:
+
+        ```javascript
+        ...
+        <script>
+        const modal = document.getElementById('crudModal');
+        const modalContent = document.getElementById('crudModalContent');
+
+        function showModal() {
+            const modal = document.getElementById('crudModal');
+            const modalContent = document.getElementById('crudModalContent');
+
+            modal.classList.remove('hidden'); 
+            setTimeout(() => {
+                modalContent.classList.remove('opacity-0', 'scale-95');
+                modalContent.classList.add('opacity-100', 'scale-100');
+            }, 50); 
+        }
+
+        function hideModal() {
+            const modal = document.getElementById('crudModal');
+            const modalContent = document.getElementById('crudModalContent');
+
+            modalContent.classList.remove('opacity-100', 'scale-100');
+            modalContent.classList.add('opacity-0', 'scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 150); 
+        }
+
+        document.getElementById("cancelButton").addEventListener("click", hideModal);
+        document.getElementById("closeModalBtn").addEventListener("click", hideModal);
+        ...
+        </script>
+        ```
+
+        Dengan modal ini, *form* yang telah saya buat sebelumnya belum bisa digunakan untuk menambahkan data *product*. Oleh karena itu, saya perlu membuat fungsi JavaScript baru yang akan menambahkan data berdasarkan input ke basis data secara AJAX. Saya membuat fungsi baru pada block `<script>` dengan nama `addProducts` seperti berikut:
+
+        ```javascript
+        <script>
+        ...
+        function addProducts() {
+            fetch("{% url 'main:add_product_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#productForm')),
+            })
+            .then(response => refreshProducts())
+
+            document.getElementById("productForm").reset(); 
+            document.querySelector("[data-modal-toggle='crudModal']").click();
+
+            return false;
+        }
+        ...
+        </script>
+        ```
+
+        Kode ini menggunakan `new FormData(document.querySelector('#productForm'))` untuk mengambil data dari *form* di modal dan mengubahnya menjadi objek yang bisa dikirim ke server. Setelah *form* di-submit, `document.getElementById("productForm").reset()` digunakan untuk mengosongkan semua *field* pada *form* agar bisa digunakan kembali. Terakhir, `document.querySelector("[data-modal-toggle='crudModal']").click()` akan menutup modal secara otomatis setelah data berhasil dikirim, sehingga pengguna tidak perlu menutupnya secara manual.
+
+        Selanjutnya, berikut kode untuk menambahkan *event listener* ke *form* dengan ID `"productForm"` yang akan menjalankan fungsi `addProducts()` saat *form* di-*submit*, sambil mencegah perilaku *submit* standar dengan `e.preventDefault()`:
+
+        ```javascript
+        <script>
+        ...
+        document.getElementById("productForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            addProducts();
+        })
+        </script>
+        ```
+
+        Saya menggunakan `document.getElementById("productForm")` untuk mengambil elemen *form* dari `DOM`, kemudian menambahkan *event listener* dengan `.addEventListener("submit", ...)`. Fungsi *callback* tersebut menggunakan `e.preventDefault()` untuk mencegah *form* melakukan *submit* standar, karena saya menggunakan AJAX untuk pengiriman data secara asinkron. Setelah itu, fungsi `addProducts()` dipanggil agar produk baru bisa ditambahkan. Dengan cara ini, aplikasi dapat menambahkan data tanpa perlu melakukan *reload* halaman.
+
+    2. AJAX POST
+        - Buatlah sebuah tombol yang membuka sebuah modal dengan *form* untuk menambahkan *product*.
+            Untuk mengimplementasikan ini, saya menambahkan tombol baru di samping tombol `Add New Product` pada `main.html` untuk memungkinkan penambahan data menggunakan AJAX. Berikut kodenya:
+
+        ```html
+        ...
+        <button data-modal-target="crudModal" data-modal-toggle="crudModal" class="btn bg-indigo-700 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105" onclick="showModal();">
+            Add New Product by AJAX
+        </button>
+        ...
+        ```
+
+        - Buatlah fungsi *view* baru untuk menambahkan *product* baru ke dalam basis data.
+            Langkah selanjutnya adalah membuat fungsi *view* baru bernama `add_product_ajax` yang bertugas untuk menambahkan produk baru ke dalam basis data. Fungsi ini menerima data POST seperti nama, harga, deskripsi, kategori, dan rating dari *form*, kemudian menggunakan fungsi `strip_tags` untuk membersihkan input dari tag HTML. Setelah itu, data disimpan ke dalam basis data jika validasi berhasil. Berikut kode untuk fungsi view-nya:
+
+            ```python
+            @csrf_exempt
+            @require_POST
+            def add_product_ajax(request):
+                name = strip_tags(request.POST.get("name"))
+                price = strip_tags(request.POST.get("price"))
+                description = strip_tags(request.POST.get("description"))
+                category = strip_tags(request.POST.get("category"))
+                rating = strip_tags(request.POST.get("rating"))
+                user = request.user
+
+                new_product = Product(
+                    name=name, 
+                    price=price,
+                    description=description,
+                    category=category,
+                    rating=rating,
+                    user=user
+                )
+
+                try:
+                    # Memvalidasi model sebelum menyimpan
+                    new_product.full_clean()
+                    new_product.save()
+                    return JsonResponse({'message': 'Product created successfully!'}, status=201)
+                except ValidationError as e:
+                    # Mengembalikan respons JSON dengan detail kesalahan
+                    return JsonResponse({'errors': e.message_dict}, status=400)
+                except Exception as e:
+                    # Tangani kesalahan lain
+                    return JsonResponse({'errors': str(e)}, status=500)
+            ```
+
+        - Buatlah *path* `/create-ajax/` yang mengarah ke fungsi *view* yang baru kamu buat.
+            Untuk mengakses fungsi `add_product_ajax` secara asinkron, saya menambahkan *import* `add_product_ajax` dan menambahkan *path* baru di dalam *file* `urls.py`:
+
+            ```python
+            urlpatterns = [
+                ...
+                path('create-product-ajax', add_product_ajax, name='add_product_ajax'),
+            ]
+            ```
+
+        - Hubungkan *form* yang telah kamu buat di dalam modal kamu ke *path* `/create-ajax/`.
+            Untuk menghubungkan *form* yang ada di dalam modal ke *path* `/create-ajax/`, *form* tersebut sudah disiapkan di file `form.html` yang kemudian di-*include* di `main.html`. Pengiriman data *form* dilakukan menggunakan JavaScript melalui fungsi `addProducts`. Fungsi ini akan menangani pengiriman data secara asinkron ke path `/create-product-ajax/` menggunakan AJAX. Jadi, meskipun *form* tidak memiliki atribut `action`, penghubungannya dilakukan oleh JavaScript melalui `fetch()` yang ada di fungsi `addProducts`. Berikut kodenya:
+
+            ```javascript
+            <script>
+            ...
+            function addProducts() {
+                fetch("{% url 'main:add_product_ajax' %}", {
+                method: "POST",
+                body: new FormData(document.querySelector('#productForm')),
+                })
+                .then(response => refreshProducts())
+
+                document.getElementById("productForm").reset(); 
+                document.querySelector("[data-modal-toggle='crudModal']").click();
+
+                return false;
+            }
+            ...
+            </script>
+            ```
+        
+        - Lakukan *refresh* pada halaman utama secara asinkronus untuk menampilkan daftar *product* terbaru tanpa *reload* halaman utama secara keseluruhan.
+            Untuk melakukan *refresh* pada halaman utama secara asinkronus dan menampilkan daftar *product* terbaru tanpa *reload* seluruh halaman, saya menggunakan fungsi `refreshProducts()`. Fungsi ini akan mengambil data terbaru dari server dan memperbarui tampilan daftar produk tanpa perlu memuat ulang halaman. Berikut kodenya:
+
+            ```javascript
+            ...
+            async function refreshProducts() {
+                document.getElementById("product_cards").innerHTML = "";
+                document.getElementById("product_cards").className = "";
+                const products = await getProducts(); // Assuming this fetches the product data from your server
+                let htmlString = "";
+                let classNameString = "";
+
+                if (products.length === 0) {
+                classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+                htmlString = `
+                    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                        <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+                        <p class="text-center text-gray-600 mt-4">Belum ada data product pada Floryn Shop.</p>
+                    </div>
+                `;
+                } else {
+                classNameString = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10"; // Tambahkan grid layout di sini
+                products.forEach((item) => {
+                    const name = DOMPurify.sanitize(item.fields.name);
+                    const price = DOMPurify.sanitize(item.fields.price);
+                    const description = DOMPurify.sanitize(item.fields.description);
+                    const category = DOMPurify.sanitize(item.fields.category);
+                    const rating = DOMPurify.sanitize(item.fields.rating);
+
+                    htmlString += `
+                    <div class="bg-white p-6 rounded-lg shadow-md"> <!-- Tambahkan class ini di luar card -->
+                        <div class="rounded-lg border border-gray-200 shadow-lg hover:shadow-2xl transition-shadow duration-300 max-w-sm mx-auto">
+                        <div class="p-5">
+                            <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">${name}</h5>
+                            <p class="font-normal text-gray-700 mb-2">Price: Rp ${price}</p>
+                            <p class="font-normal text-gray-700 break-words mb-2">Description: ${description}</p>
+                            <p class="font-normal text-gray-700 mb-2">Category: ${category}</p>
+                            <p class="font-normal text-gray-700">Rating: 
+                            <span class="text-yellow-500">${rating} &#9733;</span>
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gray-100 p-4 flex justify-between items-center">
+                            <!-- Button Edit -->
+                            <a href="/edit-product/${item.pk}" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-full p-2 transition duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                            </svg>
+                            </a>
+
+                            <!-- Button Delete -->
+                            <a href="/delete-product/${item.pk}" class="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            </a>
+                        </div>
+                        </div>
+                    </div>
+                    `;
+                });
+            }
+                document.getElementById("product_cards").className = classNameString;
+                document.getElementById("product_cards").innerHTML = htmlString;
+            }
+            refreshProducts();
+            ...
+            ```
+
+        - Pastikan AJAX GET dan POST dapat dilakukan secara aman.
+            Untuk memastikan keamanan dari serangan XSS, saya menambahkan `strip_tags` pada *input* data di *view* `add_product_ajax` di `views.py`, serta di setiap *form* seperti `create_product` dan `edit_product`, sehingga semua tag HTML yang berpotensi berbahaya dibersihkan sebelum data disimpan ke dalam basis data. Selain itu, saya memastikan keamanan AJAX GET dan POST dengan menambahkan dekorator `@csrf_exempt` dan `@require_POST` untuk melindungi dari serangan CSRF. Di sisi *frontend*, saya menggunakan `const` dan *library* `DOMPurify` untuk membersihkan data yang diambil dari server sebelum ditampilkan ke DOM, memastikan bahwa tidak ada konten berbahaya yang bisa dieksekusi di browser. Jika validasi model berhasil, produk disimpan, dan jika ada kesalahan, pesan *error* dikembalikan dalam format JSON. Dengan penanganan ini di setiap *form* seperti `create_product`, `add_product_ajax`, dan `edit_product`, aplikasi terlindung dari XSS dan serangan lainnya saat melakukan operasi asinkronus.

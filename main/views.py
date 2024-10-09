@@ -12,6 +12,8 @@ from main.models import Product
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
+from django.core.exceptions import ValidationError
+from django.http import JsonResponse
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -131,6 +133,15 @@ def add_product_ajax(request):
         rating=rating,
         user=user
     )
-    new_product.save()
 
-    return HttpResponse(b"CREATED", status=201)
+    try:
+        # Memvalidasi model sebelum menyimpan
+        new_product.full_clean()
+        new_product.save()
+        return JsonResponse({'message': 'Product created successfully!'}, status=201)
+    except ValidationError as e:
+        # Mengembalikan respons JSON dengan detail kesalahan
+        return JsonResponse({'errors': e.message_dict}, status=400)
+    except Exception as e:
+        # Tangani kesalahan lain
+        return JsonResponse({'errors': str(e)}, status=500)
