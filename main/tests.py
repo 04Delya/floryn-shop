@@ -21,14 +21,14 @@ class mainTest(TestCase):
             price=300000,
             description="Express your love with this elegant bouquet of 12 fresh red roses, symbolizing beauty and passion.",
             category="Flower Bouquet",
-            rating=4.75
+            rating=4
         )
         self.assertEqual(product.name, "Red Rose Bouquet")
         self.assertEqual(product.price, 300000)
 
     def test_product_list(self):
-        Product.objects.create(name="Product 1", price=50000, description="Desc 1", category="Cat 1", rating=4.50)
-        Product.objects.create(name="Product 2", price=150000, description="Desc 2", category="Cat 2", rating=4.80)
+        Product.objects.create(name="Product 1", price=50000, description="Desc 1", category="Cat 1", rating=4)
+        Product.objects.create(name="Product 2", price=150000, description="Desc 2", category="Cat 2", rating=4)
         products = Product.objects.all()
         self.assertEqual(products.count(), 2)
 
