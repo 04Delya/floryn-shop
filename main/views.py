@@ -1,10 +1,10 @@
-import datetime
+import datetime, json
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core import serializers
 from django.shortcuts import render, redirect, reverse
 from main.forms import ProductForm
@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
 from django.core.exceptions import ValidationError
-from django.http import JsonResponse
+
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -145,3 +145,28 @@ def add_product_ajax(request):
     except Exception as e:
         # Tangani kesalahan lain
         return JsonResponse({'errors': str(e)}, status=500)
+    
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+        new_product = Product.objects.create(
+            user=request.user,
+            name=data["name"],
+            description=data["description"],
+            category=data["category"],
+            amount=data["amount"],
+            price=data["price"],
+            rating=data["rating"]
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, 'product_detail.html', {'product': product})
